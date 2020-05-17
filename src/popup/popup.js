@@ -21,7 +21,9 @@ class App extends React.Component {
       ],
       text: "",
       scripts: [],
-      selectedScript: {},
+      selectedScript: {
+        options: []
+      },
       options: {}
     };
   }
@@ -71,6 +73,7 @@ class App extends React.Component {
   loadScripts() {
     this.setState({ loading: true });
     scriptService.loadScripts(this.state.query, scripts => {
+      console.log(scripts);
       this.sortScripts(scripts, (scripts) => {
         this.setState({ scripts, loading: false });
       });
@@ -134,7 +137,7 @@ class App extends React.Component {
         {
           type: "SCRIPT_RUN",
           options: {
-            id: script.scriptId,
+            id: script.id,
             tabId: d[0].id,
             name: script.name,
             url: this.state.url,

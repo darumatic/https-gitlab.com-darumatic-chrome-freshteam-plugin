@@ -36,6 +36,7 @@ exports.setup = function() {
   chrome.runtime.onMessage.addListener(function(request) {
     if (request.type === "SCRIPT_RUN") {
       currentScript = request.options;
+      runEnabled = true;
       running();
 
       let script = db.getScript(currentScript.id);

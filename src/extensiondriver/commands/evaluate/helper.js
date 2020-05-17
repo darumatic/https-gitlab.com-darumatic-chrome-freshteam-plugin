@@ -2,9 +2,9 @@
  * Helper functions
  */
 
-const WebElement = require('selenium-webdriver/lib/webdriver').WebElement;
-const errors = require('../../errors');
-const Targets = require('../../targets');
+const WebElement = require("selenium-webdriver/lib/webdriver").WebElement;
+const errors = require("../../errors");
+const Targets = require("../../targets");
 
 /**
  * Evaluate expression in current target
@@ -13,14 +13,14 @@ const Targets = require('../../targets');
  * @param {Boolean} [isAsync=false]
  * @returns {Promise}
  */
-exports.evaluate = function (expression, isAsync = false) {
+exports.evaluate = function(expression, isAsync = false) {
   return Promise.resolve()
-    .then(() => Targets.ensureComplete())
+    // .then(() => Targets.ensureComplete())
     .then(() => {
-      return Targets.debugger.sendCommand('Runtime.evaluate', {
+      return Targets.debugger.sendCommand("Runtime.evaluate", {
         expression: expression,
         returnByValue: false,
-        awaitPromise: isAsync,
+        awaitPromise: isAsync
       });
     })
     .then(res => {
@@ -40,18 +40,22 @@ exports.evaluate = function (expression, isAsync = false) {
  * @param {Boolean} [isAsync=false]
  * @returns {*}
  */
-exports.callFunctionOn = function (fnBody, args, isAsync = false) {
+exports.callFunctionOn = function(fnBody, args, isAsync = false) {
   return Promise.resolve()
     .then(() => Targets.ensureComplete())
-    .then(() => exports.evaluate('window'))
+    .then(() => exports.evaluate("window"))
     .then(result => {
-      return Targets.debugger.sendCommand('Runtime.callFunctionOn', {
-        objectId: result.objectId,
-        functionDeclaration: fnBody,
-        arguments: args,
-        returnByValue: false,
-        awaitPromise: isAsync,
-      })
+      try {
+        return Targets.debugger.sendCommand("Runtime.callFunctionOn", {
+          objectId: result.objectId,
+          functionDeclaration: fnBody,
+          arguments: args,
+          returnByValue: false,
+          awaitPromise: isAsync
+        });
+      } catch (e) {
+        console.log("error", e);
+      }
     })
     .then(res => {
       checkThrownError(res);
@@ -59,27 +63,27 @@ exports.callFunctionOn = function (fnBody, args, isAsync = false) {
     });
 };
 
-exports.getOwnProperties = function (objectId) {
-  return Targets.debugger.sendCommand('Runtime.getProperties', {
+exports.getOwnProperties = function(objectId) {
+  return Targets.debugger.sendCommand("Runtime.getProperties", {
     objectId: objectId,
-    ownProperties: true,
+    ownProperties: true
   })
     .then(res => res.result);
 };
 
-exports.getInternalProperties = function (objectId) {
-  return Targets.debugger.sendCommand('Runtime.getProperties', {
+exports.getInternalProperties = function(objectId) {
+  return Targets.debugger.sendCommand("Runtime.getProperties", {
     objectId: objectId,
-    ownProperties: true,
+    ownProperties: true
   })
-    .then(res => res.internalProperties)
+    .then(res => res.internalProperties);
 };
 
-exports.getWebElement = function (objectId) {
+exports.getWebElement = function(objectId) {
   // todo: yet not clear why we need getDocument before each request node
-  return Targets.debugger.sendCommand('DOM.getDocument', {})
-    .then(() => Targets.debugger.sendCommand('DOM.requestNode', {
-      objectId: objectId,
+  return Targets.debugger.sendCommand("DOM.getDocument", {})
+    .then(() => Targets.debugger.sendCommand("DOM.requestNode", {
+      objectId: objectId
     }))
     .then(res => WebElement.buildId(String(res.nodeId)));
 };
@@ -88,15 +92,15 @@ exports.getWebElement = function (objectId) {
  * Resolves nodeId of WebElement to ObjectId
  * @param {String} id
  */
-exports.resolveNode = function (id) {
-  return Targets.debugger.sendCommand('DOM.resolveNode', {
-      nodeId: Number(id)
-    })
+exports.resolveNode = function(id) {
+  return Targets.debugger.sendCommand("DOM.resolveNode", {
+    nodeId: Number(id)
+  })
     .then(res => res.object.objectId);
 };
 
 // todo: move to common utils
-exports.wait = function (ms) {
+exports.wait = function(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
@@ -104,7 +108,7 @@ exports.wait = function (ms) {
  * Creates error meaning error in executed javascript
  * @param {String} message
  */
-exports.createError = function (message) {
+exports.createError = function(message) {
   return new errors.JavascriptError(message);
 };
 
