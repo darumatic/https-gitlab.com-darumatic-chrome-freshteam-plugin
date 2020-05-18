@@ -219,9 +219,9 @@ function isNewSessionRequest(request, options) {
 
 function wrapCode(code) {
   return [
-    '(function (console) { try { /* <=== donkeyscript wrapper */ ',
+    '(function (console) { try { /* <=== freshteam wrapper */ ',
     code,
-    '} catch(e) {__onTestFileError.dispatch(e)}})(uiConsole); /* <=== donkeyscript wrapper */'
+    '} catch(e) {__onTestFileError.dispatch(e)}})(uiConsole); /* <=== freshteam wrapper */'
   ].join('')
 }
 

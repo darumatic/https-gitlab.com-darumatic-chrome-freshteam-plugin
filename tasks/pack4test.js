@@ -7,12 +7,12 @@ const crx = require('./helper/crx');
 
 crx.pack({
   dir: 'dist/unpacked-dev',
-  key: 'tasks/keys/donkeyscript-dev.pem',
-  out: 'dist/donkeyscript-dev.crx',
+  key: 'tasks/keys/freshteam-dev.pem',
+  out: 'dist/freshteam-dev.crx',
 });
 
 crx.pack({
   dir: 'dist/unpacked',
-  key: 'tasks/keys/donkeyscript.pem',
-  out: 'dist/donkeyscript.crx',
+  key: 'tasks/keys/freshteam.pem',
+  out: 'dist/freshteam.crx',
 });

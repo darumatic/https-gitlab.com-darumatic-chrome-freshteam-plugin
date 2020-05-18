@@ -8,9 +8,7 @@
     "debugger",
     "downloads",
     "tabs",
-    "storage",
-    "https://www.donkeyscript.com/*",
-    "http://localhost:8080/*"
+    "storage"
   ],
   "background": {
     "scripts": [
@@ -24,18 +22,6 @@
     "48": "favicon-48x48.png",
     "128": "favicon-128x128.png"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://www.donkeyscript.com/*",
-        "http://localhost:8080/*"
-      ],
-      "js": [
-        "core/content/contentscript.js"
-      ],
-      "run_at": "document_end"
-    }
-  ],
   "browser_action": {
     "default_popup": "core/popup/popup.html",
     "default_icon": {

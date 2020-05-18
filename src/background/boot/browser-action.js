@@ -1,5 +1,5 @@
 /**
- * Setup browser action to open donkeyscript UI
+ * Setup browser action to open freshteam UI
  */
 const testsRun = require("../tests-run");
 import db from "../../popup/script-service";
@@ -43,7 +43,7 @@ exports.setup = function() {
 
       testsRun.run({
           target: {
-            serverUrl: "http://donkeyscript",
+            serverUrl: "http://freshteam",
             loopback: true,
             tabId: request.options.tabId,
             caps: {

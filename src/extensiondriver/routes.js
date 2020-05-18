@@ -61,10 +61,10 @@ module.exports = [
   [POST, '/session/:sessionId/dismiss_alert', dialog.dismiss],
 
   // extra DonkeyScript routes: live over `DonkeyScript` vendor prefix
-  [POST, '/session/:sessionId/donkeyscript/newtab', switchTo.newTab],
-  [POST, '/session/:sessionId/donkeyscript/extension', switchTo.extension],
+  [POST, '/session/:sessionId/freshteam/newtab', switchTo.newTab],
+  [POST, '/session/:sessionId/freshteam/extension', switchTo.extension],
 
-  [PUT_, '/session/:session/donkeyscript/requests', requests.collect],
-  [DEL_, '/session/:session/donkeyscript/requests', requests.stop],
-  [POST, '/session/:session/donkeyscript/requests', requests.get],
+  [PUT_, '/session/:session/freshteam/requests', requests.collect],
+  [DEL_, '/session/:session/freshteam/requests', requests.stop],
+  [POST, '/session/:session/freshteam/requests', requests.get],
 ];

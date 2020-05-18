@@ -1,11 +1,11 @@
 /**
- * Catches special url 'http://donkeyscript' to launch ui
+ * Catches special url 'http://freshteam' to launch ui
  */
 
 const thenChrome = require('then-chrome');
 const constants = require('./constants');
 
-const SPECIAL_HOSTNAME = 'donkeyscript';
+const SPECIAL_HOSTNAME = 'freshteam';
 
 exports.start = function () {
   if (!isSelfTest()) {

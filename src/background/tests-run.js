@@ -40,7 +40,7 @@ exports.run = function(data) {
 };
 
 /**
- * Returns first donkeyscript ui window
+ * Returns first freshteam ui window
  */
 function getUiWindow() {
   const views = chrome.extension.getViews({type: 'tab'});

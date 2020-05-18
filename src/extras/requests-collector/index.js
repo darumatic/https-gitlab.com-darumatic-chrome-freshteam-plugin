@@ -20,9 +20,9 @@ exports.setup = function () {
  * Use PUT & POST here as we may need to pass filter in body
  */
 function registerCommands() {
-  engines.selenium.registerCommand(commands.REQUESTS_COLLECT, 'PUT', '/session/:sessionId/donkeyscript/requests');
-  engines.selenium.registerCommand(commands.REQUESTS_STOP, 'DELETE', '/session/:sessionId/donkeyscript/requests');
-  engines.selenium.registerCommand(commands.REQUESTS_GET, 'POST', '/session/:sessionId/donkeyscript/requests');
+  engines.selenium.registerCommand(commands.REQUESTS_COLLECT, 'PUT', '/session/:sessionId/freshteam/requests');
+  engines.selenium.registerCommand(commands.REQUESTS_STOP, 'DELETE', '/session/:sessionId/freshteam/requests');
+  engines.selenium.registerCommand(commands.REQUESTS_GET, 'POST', '/session/:sessionId/freshteam/requests');
 }
 
 function addRequestsMethod() {

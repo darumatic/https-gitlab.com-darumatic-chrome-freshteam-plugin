@@ -24,16 +24,16 @@ Promise.all([
 .then(() => {
   zip.create({
     dir: outDir,
-    out: '../donkeyscript.zip'
+    out: '../freshteam.zip'
   });
   crx.pack({
     dir: outDir,
-    key: 'tasks/keys/donkeyscript.pem',
-    out: 'dist/donkeyscript.crx'
+    key: 'tasks/keys/freshteam.pem',
+    out: 'dist/freshteam.crx'
   });
   crx.pack({
     dir: outDirDev,
-    key: 'tasks/keys/donkeyscript-dev.pem',
-    out: 'dist/donkeyscript-dev.crx'
+    key: 'tasks/keys/freshteam-dev.pem',
+    out: 'dist/freshteam-dev.crx'
   });
 });

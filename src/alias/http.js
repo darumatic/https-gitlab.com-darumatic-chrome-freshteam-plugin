@@ -7,7 +7,7 @@ const httpBrowserify = require('http-browserify');
 const httpsBrowserify = require('https-browserify');
 const fakeHttp = require('../utils/fake-http');
 
-const LOOPBACK_HOST = 'donkeyscript';
+const LOOPBACK_HOST = 'freshteam';
 
 // intercept for event dispatching
 const realHttpWrapped = intercept(httpBrowserify);

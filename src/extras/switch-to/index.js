@@ -22,8 +22,8 @@ exports.setup = function () {
 };
 
 function registerCommands() {
-  engines.selenium.registerCommand(commands.SWITCH_TO_NEW_TAB, 'POST', '/session/:sessionId/donkeyscript/newtab');
-  engines.selenium.registerCommand(commands.SWITCH_TO_EXTENSION, 'POST', '/session/:sessionId/donkeyscript/extension');
+  engines.selenium.registerCommand(commands.SWITCH_TO_NEW_TAB, 'POST', '/session/:sessionId/freshteam/newtab');
+  engines.selenium.registerCommand(commands.SWITCH_TO_EXTENSION, 'POST', '/session/:sessionId/freshteam/extension');
 }
 
 function addNewtabMethod() {

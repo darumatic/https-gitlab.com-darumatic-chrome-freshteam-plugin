@@ -14,11 +14,6 @@ class App extends React.Component {
         limit: 30,
         page: 1
       },
-      textOptions: [
-        "I find the scripts for you based on current browser URL, try open <a href=\"https://amazon.com\">https://amazon.com</a>",
-        "If you need a new script, just send me an email <a href=\"mailto:donkey@donkeyscript.com\">hi@donkeyscript.com</a>. I will reply in 24 hours.",
-        "Click the bottom login link to show or hide your scripts, you also need to login to see your custom scripts"
-      ],
       text: "",
       scripts: [],
       selectedScript: {
