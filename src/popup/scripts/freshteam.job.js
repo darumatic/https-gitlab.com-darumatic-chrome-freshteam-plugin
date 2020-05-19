@@ -1,57 +1,83 @@
 (async function() {
+  function formatName(username) {
+    return username.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+  }
+
+  function filePath(jobName, username, fileName) {
+    return "freshteam/" + formatName(jobName) + "/" + formatName(username) + "/" + fileName;
+  }
+
   await driver.get(url);
 
-  let hasNextPage = "";
+
+  let hasNextPage = false;
   await driver.wait(until.elementLocated(By.css(".next-page")), 60000);
 
+
+  let jobName = await driver.executeScript("return document.querySelector('.breadcrumb-title a:nth-child(1)').innerText.replace('View Job Details', '').trim();");
+
   do {
+    console.log("Start downloading attachments");
+
+    await driver.wait(async function() {
+      return await driver.executeScript("return document.querySelector('.pagearea-content .no-data-title') !== null || document.querySelector('.pagearea-content .candidate-list-item') !==null");
+    }, 60000);
+
     let elements = await driver.findElements(By.css(".candidate-list-item"));
 
-    console.log("##########1", elements.length);
     for (let i = 0; i < elements.length; i++) {
       console.log("candidates ", i);
       let selector = ".pagearea-content tr:nth-child(" + (i + 2) + ") td:nth-child(2) a";
       let linkElement = await driver.findElement(By.css(selector));
-      driver.executeScript("document.querySelector('" + selector + "').scrollIntoViewIfNeeded()");
-      console.log("##########1.1");
+      await driver.executeScript("document.querySelector('" + selector + "').scrollIntoViewIfNeeded()");
       await linkElement.click();
 
-      await driver.wait(until.elementLocated(By.css(".custom-modal-close")), 60000);
+      let nameElement = await linkElement.findElement(By.css(".name"));
+      let username = await nameElement.getAttribute("title");
 
-      console.log("##########2");
+      let timestamp = null;
+      await driver.wait(async function() {
+        let html = await driver.executeScript("return document.querySelector('.attach-wrap').innerHTML");
+        if (html.includes("<!---->") && timestamp === null) {
+          timestamp = new Date().getTime();
+        }
+        let currentTimeStamp = new Date().getTime();
+        return html.includes("attach-info") || html.includes("<!---->") && currentTimeStamp - timestamp > 500;
+      }, 60000);
 
       let attachments = await driver.executeScript("return Array.from(document.querySelectorAll('.download-attached a:nth-child(2)')).map(item=>{return {name: item.getAttribute('download'), url:item.getAttribute('href')}})");
-      console.log("attachments", attachments);
+
+      console.log(username + " attachments", attachments);
 
       for (let j = 0; j < attachments.length; j++) {
         let attachment = attachments[j];
-
         console.log("find attachment", attachment.name, attachment.url);
+
+        browser.downloads.download({ url: attachment.url, filename: filePath(jobName, username, attachment.name) });
       }
 
-      console.log("##########3");
       let closeButton = await driver.findElement(By.css(".custom-modal-close a"));
       await closeButton.click();
 
-      console.log("##########4");
       await driver.wait(async function() {
         await driver.executeScript("return document.querySelector('.custom-modal-close a') && document.querySelector('.custom-modal-close a').click()");
         let buttons = await driver.findElements(By.css(".custom-modal-close"));
         console.log("buttons", buttons);
         return buttons.length === 0;
       }, 60000);
-      console.log("##########5");
     }
 
     let nextButton = await driver.findElement(By.css(".next-page"));
-    let nextButtonClass = await nextButton.getAttribute("class");
+    await driver.executeScript("document.querySelector('.next-page').scrollIntoViewIfNeeded()");
+
+    let nextButtonClass = await driver.executeScript("return document.querySelector('.next-page').className");
     hasNextPage = !nextButtonClass.includes("disabled");
 
-    console.log("##########6");
-
     if (hasNextPage) {
+      console.log("Start next page, ", hasNextPage);
       await nextButton.click();
-      await driver.wait(until.elementLocated(By.css(".next-page")), 10000);
+      await driver.wait(until.elementLocated(By.css(".next-page")), 60000);
     }
+
   } while (hasNextPage);
 })();
