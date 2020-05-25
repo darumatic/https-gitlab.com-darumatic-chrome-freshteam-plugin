@@ -7,8 +7,24 @@
     return "freshteam/" + formatName(jobName) + "/" + formatName(username) + "/" + fileName;
   }
 
-  await driver.get(url);
+  function download(url, name, retry) {
+    let retried = typeof retry !== "undefined" ? retry : 0;
+    let MAX_RETRIED = 5;
 
+    if (retried <= MAX_RETRIED) {
+      browser.downloads.download({ url: url, filename: name }, (downloadId) => {
+        if (downloadId) {
+          console.log("download " + url + " successfully");
+        } else {
+          download(url, name, retried++);
+        }
+      });
+    } else {
+      console.log("download " + url + " failed");
+    }
+  }
+
+  await driver.get(url);
 
   let hasNextPage = false;
   await driver.wait(until.elementLocated(By.css(".next-page")), 60000);
@@ -52,8 +68,7 @@
       for (let j = 0; j < attachments.length; j++) {
         let attachment = attachments[j];
         console.log("find attachment", attachment.name, attachment.url);
-
-        browser.downloads.download({ url: attachment.url, filename: filePath(jobName, username, attachment.name) });
+        download(attachment.url, filePath(jobName, username, attachment.name));
       }
 
       let closeButton = await driver.findElement(By.css(".custom-modal-close a"));
