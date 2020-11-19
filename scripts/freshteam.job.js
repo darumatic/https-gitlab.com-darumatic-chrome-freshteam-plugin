@@ -31,6 +31,8 @@
 
 
   let jobName = await driver.executeScript("return document.querySelector('.breadcrumb-title a:nth-child(1)').innerText.replace('View Job Details', '').trim();");
+  await driver.executeScript("let open = window.__open || XMLHttpRequest.prototype.open;window.__open = open;window.results = {};XMLHttpRequest.prototype.open = function() {  this.addEventListener('load', event => {  let url = event.currentTarget.responseURL;    let matches = url.match(/.*.?hire.?applicants.?([0-9]+)/);    if (matches) {      let id = matches[1];      let result = JSON.parse(event.currentTarget.responseText);      window.results[id.toString().trim()] = result['attachments']||[];    }  }, false);  open.apply(this, arguments);};");
+
 
   do {
     console.log("Start downloading attachments");
@@ -51,18 +53,18 @@
       let nameElement = await linkElement.findElement(By.css(".name"));
       let username = await nameElement.getAttribute("title");
 
-      let timestamp = null;
+      let ajaxResults = null;
       await driver.wait(async function() {
-        let html = await driver.executeScript("return document.querySelector('.attach-wrap').innerHTML");
-        if (html.includes("<!---->") && timestamp === null) {
-          timestamp = new Date().getTime();
-        }
-        let currentTimeStamp = new Date().getTime();
-        return html.includes("attach-info") || html.includes("<!---->") && currentTimeStamp - timestamp > 500;
+        ajaxResults = await driver.executeScript("let url = window.location.href;let matches = url.match(/.*candidates.?listview.?([0-9]+)/);id = matches[1];return window.results[id];");
+        return ajaxResults != null;
       }, 60000);
 
-      let attachments = await driver.executeScript("return Array.from(document.querySelectorAll('.download-attached a:nth-child(2)')).map(item=>{return {name: item.getAttribute('download'), url:item.getAttribute('href')}})");
-
+      let attachments = ajaxResults.map(item => {
+        return {
+          name: item["content_file_name"],
+          url: item["expiring_urls"]["original"]
+        };
+      });
       console.log(username + " attachments", attachments);
 
       for (let j = 0; j < attachments.length; j++) {

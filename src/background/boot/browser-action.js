@@ -63,7 +63,7 @@ exports.setup = function() {
         console.log("DONE");
         done();
       }).catch((e) => {
-        console.log("ERROR", e.message);
+        console.log("ERROR", e);
         done();
       });
       return true;
