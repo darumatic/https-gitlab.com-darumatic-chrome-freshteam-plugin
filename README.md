@@ -7,8 +7,7 @@ The plugin is used to automaticly download Freshteam's candidates resumes attach
 
 ## How to install? 
 
-1. Download the plugin. 
-
+1. Download the plugin. [freshteam-plugin-v0.0.1.zip](https://gitlab.com/darumatic/chrome-freshteam-plugin/-/raw/master/release/freshteam-plugin-v0.0.1.zip?inline=false)
 
 2. Unzip the plugin file. 
 3. Open Chrome, and open the following URL. `chrome://extensions/`
