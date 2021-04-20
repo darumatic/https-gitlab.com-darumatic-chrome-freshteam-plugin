@@ -24,6 +24,21 @@
     }
   }
 
+  let totalDownloads = 0;
+
+  console.log(browser.downloads);
+
+  browser.downloads.onChanged.addListener(function() {
+    browser.downloads.search({ limit: 0 }, function(items) {
+      var activeDownloads = [];
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (item.state === "in_progress") activeDownloads.push(item.id);
+      }
+      totalDownloads = activeDownloads.length;
+    });
+  });
+
   await driver.get(url);
 
   let hasNextPage = false;
@@ -70,6 +85,11 @@
       for (let j = 0; j < attachments.length; j++) {
         let attachment = attachments[j];
         console.log("find attachment", attachment.name, attachment.url);
+
+        await driver.wait(async function() {
+          return totalDownloads < 3;
+        }, 10000);
+
         download(attachment.url, filePath(jobName, username, attachment.name));
       }
 
