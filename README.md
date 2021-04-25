@@ -19,8 +19,24 @@ The plugin is used to automaticly download Freshteam's candidates resumes attach
 
 ## How to use it? 
 
+### Download all jobs' attachments
+
 1. Manually login to Freshteam. 
-2. Navigate to the job candidates page, make sure the to use list view. 
+2. Navigate to the jobs page, The URL pattern is "/hire/jobs". 
+![Alt text](docs/download-all.png?raw=true "job detail")
+
+> Note: Make sure the URL is /hire/jobs, or the plugin will display no scripts. If the URL contains page parameter
+> the plugin will download the current page and after. 
+
+3. Click Freshteam chrome plugin extension icon. 
+4. Select [Download All Attachments] from the dropdown menu. 
+5. The plugin will open a new page, and start to iterate all job attachments and download them. 
+
+
+### Download single job's attachments
+
+1. Manually login to Freshteam. 
+2. Navigate to the job candidates page. The URL pattern is "/hire/jobs/xxx/candidates/listview"
 ![Alt text](docs/job-detail.png?raw=true "job detail")
 
 > Note: Make sure the URL is ending with /candidates/listview, or the plugin will display no scripts. 
