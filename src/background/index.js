@@ -2,4 +2,4 @@
  * Background app entry point
  */
 
-require('./app').start();
+require("./app").start()

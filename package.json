@@ -5,9 +5,6 @@
     "name": "Darumatic",
     "email": "hi@darumatic.com"
   },
-  "engines": {
-    "node": ">=6"
-  },
   "scripts": {
     "dev": "node tasks/dev",
     "hub": "selenium-standalone start",
