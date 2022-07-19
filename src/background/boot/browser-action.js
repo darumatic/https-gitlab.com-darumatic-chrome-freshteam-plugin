@@ -50,6 +50,7 @@ exports.setup = function() {
     })
 
     function downloadAllAttachments() {
+        console.log(new Date() + ": start job")
         chrome.tabs.query({ active: true, windowType: "normal", currentWindow: true }, (d) => {
             console.log(d)
             currentScript = db.getScript("1")

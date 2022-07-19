@@ -29,6 +29,12 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        chrome.storage.sync.get("syncEnabled", (result) => {
+            if (result.syncEnabled) {
+                this.setState({ syncEnabled: true })
+            }
+        })
+
         scriptService.textIndex((textIndex) => {
             this.setState({ text: this.state.textOptions[textIndex % this.state.textOptions.length] })
         })
@@ -72,7 +78,7 @@ class App extends React.Component {
 
     startTimer() {
         console.log("Start timer")
-
+        this.setState({ syncEnabled: true })
         chrome.runtime.sendMessage(
             {
                 type: "START_TIMER"
@@ -86,6 +92,7 @@ class App extends React.Component {
     }
 
     stopTimer() {
+        this.setState({ syncEnabled: false })
         console.log("Stop timer")
         chrome.runtime.sendMessage(
             {
