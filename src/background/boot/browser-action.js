@@ -8,7 +8,7 @@ import "./analytics"
 let index = 0
 let runEnabled = false
 let timer = null
-const SYNC_INTERVAL = 30 * 60 * 1000
+const SYNC_INTERVAL = 120 * 60 * 1000
 exports.setup = function() {
     let currentScript
 
@@ -25,6 +25,20 @@ exports.setup = function() {
             done()
         }
     }
+
+    chrome.storage.sync.get("syncEnabled", (result) => {
+        console.log("=====================", result, result.syncEnabled)
+
+        if (result.syncEnabled) {
+            if (timer) {
+                clearInterval(timer)
+            }
+            timer = setInterval(() => {
+                downloadAllAttachments()
+            }, SYNC_INTERVAL)
+        }
+    })
+
 
     function done() {
         runEnabled = false

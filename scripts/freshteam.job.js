@@ -47,7 +47,7 @@
         }
     }
 
-    let totalDownloads = 0
+    let currentDownloading = 0
 
     browser.downloads.onChanged.addListener(function() {
         browser.downloads.search({ limit: 0 }, function(items) {
@@ -56,7 +56,7 @@
                 var item = items[i]
                 if (item.state === "in_progress") activeDownloads.push(item.id)
             }
-            totalDownloads = activeDownloads.length
+            currentDownloading = activeDownloads.length
         })
     })
 

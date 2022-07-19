@@ -33,15 +33,6 @@ class App extends React.Component {
             this.setState({ text: this.state.textOptions[textIndex % this.state.textOptions.length] })
         })
 
-        chrome.storage.sync.get("syncEnabled", (result) => {
-            console.log("=====================", result, result.syncEnabled)
-
-            if (result.syncEnabled) {
-                this.setState({ syncEnabled: true })
-                this.startTimer()
-            }
-        })
-
         scriptService.getOptions((options) => {
             this.setState({ options }, () => {
                 scriptService.getUserInfo(userInfo => {

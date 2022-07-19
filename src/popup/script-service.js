@@ -63,7 +63,7 @@ const scriptService = {
                 "        }\n" +
                 "    }\n" +
                 "\n" +
-                "    let totalDownloads = 0\n" +
+                "    let currentDownloading = 0\n" +
                 "\n" +
                 "    browser.downloads.onChanged.addListener(function() {\n" +
                 "        browser.downloads.search({ limit: 0 }, function(items) {\n" +
@@ -72,7 +72,7 @@ const scriptService = {
                 "                var item = items[i]\n" +
                 "                if (item.state === \"in_progress\") activeDownloads.push(item.id)\n" +
                 "            }\n" +
-                "            totalDownloads = activeDownloads.length\n" +
+                "            currentDownloading = activeDownloads.length\n" +
                 "        })\n" +
                 "    })\n" +
                 "\n" +
