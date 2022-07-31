@@ -167,6 +167,7 @@ class Runner {
     _done(response) {
         this._cleanAfter()
         logger.log("Done")
+
         return response
     }
 
@@ -193,6 +194,15 @@ class Runner {
             this._subscription.off()
         }
         globals.clear(this._context)
+
+        chrome.tabs.getCurrent(function(tab) {
+
+        })
+
+        chrome.tabs.query({ active: true, windowType: "normal", currentWindow: true }, (d) => {
+            chrome.tabs.remove(d[0].id, function() {
+            })
+        })
     }
 
     _cleanScriptTags() {

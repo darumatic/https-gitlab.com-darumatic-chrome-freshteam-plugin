@@ -8,7 +8,7 @@ import "./analytics"
 let index = 0
 let runEnabled = false
 let timer = null
-const SYNC_INTERVAL = 120 * 60 * 1000
+const SYNC_INTERVAL = 12 * 60 * 60 * 1000
 exports.setup = function() {
     let currentScript
 
